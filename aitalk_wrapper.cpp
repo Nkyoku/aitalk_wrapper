@@ -146,7 +146,7 @@ bool AITalkWrapper::IsLibraryOpened(void) {
 }
 
 void AITalkWrapper::loadLanguage(const std::string &language_name) {
-    if (IsLibraryOpened == false) {
+    if (IsLibraryOpened() == false) {
         throw std::errc::function_not_supported;
     }
     std::string language_path = m_InstallDirectory + "\\Lang\\" + language_name;
@@ -161,7 +161,7 @@ void AITalkWrapper::loadLanguage(const std::string &language_name) {
 }
 
 bool AITalkWrapper::loadPhraseDictionary(const std::string &path) {
-    if (IsLibraryOpened == false) {
+    if (IsLibraryOpened() == false) {
         throw std::errc::function_not_supported;
     }
     AITalkResultCode result;
@@ -182,7 +182,7 @@ bool AITalkWrapper::loadPhraseDictionary(const std::string &path) {
 }
 
 bool AITalkWrapper::loadWordDictionary(const std::string &path) {
-    if (IsLibraryOpened == false) {
+    if (IsLibraryOpened() == false) {
         throw std::errc::function_not_supported;
     }
     AITalkResultCode result;
@@ -203,7 +203,7 @@ bool AITalkWrapper::loadWordDictionary(const std::string &path) {
 }
 
 bool AITalkWrapper::loadSymbolDictionary(const std::string &path) {
-    if (IsLibraryOpened == false) {
+    if (IsLibraryOpened() == false) {
         throw std::errc::function_not_supported;
     }
     AITalkResultCode result;
@@ -224,7 +224,7 @@ bool AITalkWrapper::loadSymbolDictionary(const std::string &path) {
 }
 
 void AITalkWrapper::loadVoice(const std::string &voice_name) {
-    if (IsLibraryOpened == false) {
+    if (IsLibraryOpened() == false) {
         throw std::errc::function_not_supported;
     }
 
@@ -275,6 +275,9 @@ AITalkWrapper::~AITalkWrapper() {
 }
 
 void AITalkWrapper::textToKana(const std::string &text, std::string *kana, int timeout) {
+    if (IsLibraryOpened() == false) {
+        throw std::errc::not_connected;
+    }
     if (kana == nullptr) {
         throw std::errc::invalid_argument;
     }
@@ -313,6 +316,9 @@ void AITalkWrapper::textToKana(const std::string &text, std::string *kana, int t
 }
 
 void AITalkWrapper::kanaToSpeech(const std::string &kana, std::vector<int16_t> *data, int timeout) {
+    if (IsLibraryOpened() == false) {
+        throw std::errc::not_connected;
+    }
     if (data == nullptr) {
         throw std::errc::invalid_argument;
     }
